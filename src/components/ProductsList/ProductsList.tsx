@@ -1,3 +1,4 @@
+import { RootState } from "../../redux/store";
 import { Product } from "../Product/Product";
 import "./ProductsList.scss";
 
@@ -14,4 +15,10 @@ export const ProductsList = () => {
       <Product />
     </div>
   );
+};
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    products: state.products,
+  };
 };
