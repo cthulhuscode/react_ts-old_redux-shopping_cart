@@ -1,18 +1,17 @@
 import { AnyAction } from "redux";
 import { Product } from "../../interfaces";
+import { GET_PRODUCTS } from "../types";
 
-interface ProductsState {
-  list: Product[] | null;
-}
+type ProductsState = Product[];
 
-const initialState: ProductsState = {
-  list: null,
-};
+const initialState: ProductsState = [];
 
 export const productsReducer = (state = initialState, action: AnyAction) => {
   switch (action.type) {
-    case "GET_PRODUCTS":
-      break;
+    case GET_PRODUCTS:
+      return [...action.payload];
+    default:
+      return state;
   }
 
   return state;
