@@ -1,4 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 import { cartReducer, productsReducer } from "./reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 
@@ -9,7 +10,7 @@ const combinedReducers = combineReducers({
 
 export const store = createStore(
   combinedReducers,
-  composeWithDevTools(applyMiddleware())
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
