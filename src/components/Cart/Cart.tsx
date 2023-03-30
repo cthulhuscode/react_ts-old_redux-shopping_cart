@@ -1,10 +1,15 @@
 import { CartItem } from "./CartItem/CartItem";
+import { RootState } from "../../redux/store";
+import { toggleCart } from "../../redux/actions";
+import { connect, ConnectedProps } from "react-redux";
 import "./Cart.scss";
 
-export const Cart = () => {
+const CartComponent = ({ showCart, toggleCart }: CartProps) => {
   return (
-    <div className="cart">
-      <span className="cart__close">X</span>
+    <div className="cart" style={{ display: showCart ? "flex" : "none" }}>
+      <span className="cart__close" onClick={() => toggleCart(false)}>
+        X
+      </span>
 
       <div className="cart__header">
         <h3 className="header__title">Shopping cart</h3>
@@ -29,3 +34,17 @@ export const Cart = () => {
     </div>
   );
 };
+
+const mapStateToProps = (state: RootState) => ({
+  list: state.cart.list,
+  totalPrice: state.cart.totalPrice,
+  showCart: state.cart.showCart,
+});
+const mapDispatchToProps = {
+  toggleCart,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type CartProps = ConnectedProps<typeof connector>;
+
+export const Cart = connector(CartComponent);

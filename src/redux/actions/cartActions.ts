@@ -1,5 +1,5 @@
 import { Product } from "../../interfaces";
-import { ADD_PRODUCT_TO_CART } from "../types";
+import { ADD_PRODUCT_TO_CART, TOGGLE_CART } from "../types";
 
 export const addProductToCart = (product: Product) => {
   return {
@@ -7,3 +7,10 @@ export const addProductToCart = (product: Product) => {
     payload: product,
   };
 };
+
+export const toggleCart = (show: boolean | null = null) => {
+  return {
+    type: TOGGLE_CART,
+    payload: show
+  }
+}
