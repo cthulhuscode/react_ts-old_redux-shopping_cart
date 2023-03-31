@@ -3,8 +3,14 @@ import { RootState } from "../../redux/store";
 import { toggleCart } from "../../redux/actions";
 import { connect, ConnectedProps } from "react-redux";
 import "./Cart.scss";
+import { CartItem as ICartItem } from "../../interfaces";
 
-const CartComponent = ({ showCart, toggleCart }: CartProps) => {
+const CartComponent = ({
+  showCart,
+  toggleCart,
+  list,
+  totalPrice,
+}: CartProps) => {
   return (
     <div className="cart" style={{ display: showCart ? "flex" : "none" }}>
       <span className="cart__close" onClick={() => toggleCart(false)}>
@@ -14,20 +20,21 @@ const CartComponent = ({ showCart, toggleCart }: CartProps) => {
       <div className="cart__header">
         <h3 className="header__title">Shopping cart</h3>
         <div>
-          <span className="header__items">{"1 items"}</span>
+          <span className="header__items">{"1"} items</span>
           <span className="header__clear">Clear cart</span>
         </div>
       </div>
 
       <ul className="cart__list">
-        <CartItem />
-        <CartItem />
+        {list.map((item: ICartItem) => (
+          <CartItem key={item.product.id} item={item} />
+        ))}
       </ul>
 
       <div className="cart__bottom">
         <div>
           <span className="cart__subtotal">Subtotal ({1} items)</span>
-          <span className="cart__price">${600}</span>
+          <span className="cart__price">${totalPrice}</span>
         </div>
         <button className="cart__btn">Buy cart</button>
       </div>
@@ -36,10 +43,11 @@ const CartComponent = ({ showCart, toggleCart }: CartProps) => {
 };
 
 const mapStateToProps = (state: RootState) => ({
-  list: state.cart.list,
-  totalPrice: state.cart.totalPrice,
-  showCart: state.cart.showCart,
+  list: state.cart["list"],
+  totalPrice: state.cart["totalPrice"],
+  showCart: state.cart["showCart"],
 });
+
 const mapDispatchToProps = {
   toggleCart,
 };
