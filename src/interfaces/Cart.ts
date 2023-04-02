@@ -10,4 +10,5 @@ export interface Cart {
   list: CartItem[];
   totalPrice: number;
   showCart: boolean;
+  itemsCount: number;
 }
