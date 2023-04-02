@@ -3,6 +3,7 @@ import {
   ADD_PRODUCT_TO_CART,
   CHANGE_PRODUCT_QTY,
   CLEAR_CART,
+  REMOVE_CART_ITEM,
   TOGGLE_CART,
 } from "../types";
 
@@ -29,7 +30,7 @@ export const clearCart = () => {
 
 export const removeCartItem = (id: string) => {
   return {
-    type: CLEAR_CART,
+    type: REMOVE_CART_ITEM,
     payload: id,
   };
 };
