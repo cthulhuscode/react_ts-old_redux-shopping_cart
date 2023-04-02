@@ -1,16 +1,31 @@
+import { ChangeEvent } from "react";
 import { CartItem as ICartItem } from "../../../interfaces";
+import { changeProductQty, removeCartItem } from "../../../redux/actions";
 import "./CartItem.scss";
 
-export const CartItem = ({
-  item: { product, qty, price: totalPrice },
-}: {
+interface CartItemProps {
   item: ICartItem;
-}) => {
-  const { title, image, price } = product;
+  changeProductQty: typeof changeProductQty;
+  removeCartItem: typeof removeCartItem;
+}
+
+export const CartItem = ({
+  item: { product, qty },
+  changeProductQty,
+  removeCartItem,
+}: CartItemProps) => {
+  const { title, image, price, id } = product;
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!isNaN(parseInt(e.target.value)))
+      changeProductQty(id, parseInt(e.target.value));
+  };
 
   return (
     <li className="cart-i">
-      <span className="cart-i__remove">X</span>
+      <span className="cart-i__remove" onClick={() => removeCartItem(id)}>
+        X
+      </span>
       <img className="cart-i__img" src={image} alt={title} />
 
       <div className="cart-i__details">
@@ -25,7 +40,10 @@ export const CartItem = ({
           name="qty"
           id="qty"
           placeholder="1"
-          value={qty}
+          value={qty.toString()}
+          onChange={handleInputChange}
+          min={1}
+          minLength={1}
         />
       </div>
     </li>
