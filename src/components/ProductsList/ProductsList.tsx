@@ -10,7 +10,7 @@ import "./ProductsList.scss";
 const ProductsListComponent = ({
   products,
   getProducts,
-  addProductToCart
+  addProductToCart,
 }: ProductsListProps) => {
   useEffect(() => {
     getProducts();
@@ -20,7 +20,11 @@ const ProductsListComponent = ({
     <div className="p-list">
       {products.length > 0 ? (
         products.map((product: IProduct) => (
-          <Product key={product.id} product={product} addProductToCart={addProductToCart} />
+          <Product
+            key={product.id}
+            product={product}
+            addProductToCart={addProductToCart}
+          />
         ))
       ) : (
         <p>Loading...</p>
@@ -29,11 +33,9 @@ const ProductsListComponent = ({
   );
 };
 
-const mapStateToProps = (state: RootState) => {
-  return {
-    products: state.products,
-  };
-};
+const mapStateToProps = (state: RootState) => ({
+  products: state.products,
+});
 const mapDispatchToProps = {
   getProducts,
   addProductToCart,
