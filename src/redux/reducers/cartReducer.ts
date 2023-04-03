@@ -40,8 +40,6 @@ export const cartReducer = (state = initialState, action: AnyAction) => {
           currentProduct,
         ];
 
-        const cartPrice = getCartPrice(listWithoutCurrentProduct);
-
         return {
           ...state,
           list: [...listWithoutCurrentProduct],
@@ -72,7 +70,7 @@ export const cartReducer = (state = initialState, action: AnyAction) => {
 
       item.qty = qty;
       item.price = item.product.price * item.qty;
-      let list = state.list.filter((item) => item.product.id !== id);
+      const list = state.list.filter((item) => item.product.id !== id);
       list.push(item);
 
       return {
@@ -83,9 +81,15 @@ export const cartReducer = (state = initialState, action: AnyAction) => {
       };
 
     case REMOVE_CART_ITEM:
+      const newList = state.list.filter(
+        (item) => item.product.id !== action.payload
+      );
+
       return {
         ...state,
-        list: state.list.filter((item) => item.product.id !== action.payload),
+        list: newList,
+        totalPrice: getCartPrice(newList),
+        itemsCount: getItemsCount(newList),
       };
 
     case CLEAR_CART:
@@ -98,6 +102,7 @@ export const cartReducer = (state = initialState, action: AnyAction) => {
 
     case TOGGLE_CART:
       return { ...state, showCart: action.payload || !state.showCart };
+
     default:
       return state;
   }
